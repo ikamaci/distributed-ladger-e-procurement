@@ -1,0 +1,28 @@
+doctype html
+
+//link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
+html(lang='en')
+    head
+        title= title
+        block styles
+            link(rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css")
+            // My wonderful navbar
+            nav.navbar.navbar-inverse
+                .container-fluid
+                    .navbar-header
+                        a.navbar-brand(href='/') CMPE 492
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href='/') Home
+                        li
+                            a(href='/blocks') Blocks
+                        li
+                            a(href='/transactions') Transfer Pool
+
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href='/user/me')
+                                | You are logged in as
+                                | user@example.com
+
+    block content

@@ -11,11 +11,13 @@ const MESSAGE_TYPE = {
     transfer: 'TRANSFER',
     clear_transfer: 'CLEAR_TRANSFER'
 }
+const names = ["Firm A","Firm B","Firm C"]
 class P2pserver{
     constructor(blockchain,transferPool){
         this.blockchain = blockchain;
         this.sockets = [];
         this.transferPool = transferPool;
+        this.index = 0;
     }
 
     // create a new p2p server and connections
@@ -28,17 +30,17 @@ class P2pserver{
         // on any new connection the current instance will send the current chain
         // to the newly connected peer
         server.on('connection',socket => this.connectSocket(socket));
-
+        //console.log(names[this.index])
+        //this.index += 1;
         // to connect to the peers that we have specified
         this.connectToPeers();
-
         console.log(`Listening for peer to peer connection on port : ${P2P_PORT}`);
     }
 
     // after making connection to a socket
     connectSocket(socket){
 
-        // push the socket too the socket array
+        // push the socket to the socket array
         this.sockets.push(socket);
         console.log("Socket connected");
 
@@ -58,10 +60,10 @@ class P2pserver{
             // create a socket for each peer
             const socket = new WebSocket(peer);
             
-            // open event listner is emitted when a connection is established
+            // open event listener is emitted when a connection is established
             // saving the socket in the array
             socket.on('open',() => this.connectSocket(socket));
-
+            console.log(this.sockets)
         });
     }
 

@@ -1,0 +1,9 @@
+extends layout
+block content
+
+    ul
+        if transfers.length !== 0
+            each val, index in transfers
+                li= index + ': ' + val
+        else
+            p Transfer pool is empty

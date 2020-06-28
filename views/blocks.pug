@@ -1,0 +1,9 @@
+extends layout
+block content
+
+    ul
+        if blocks.length !== 0
+            each val, index in blocks
+                li= index + ': ' + val
+        else
+            p Chain is empty

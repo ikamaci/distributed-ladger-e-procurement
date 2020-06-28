@@ -42,7 +42,8 @@ app.get('/', function (req, res) {
 //api to get the blocks
 app.get('/blocks',(req,res)=>{
 
-    res.json(blockchain.chain);
+    //res.json(blockchain.chain);
+    res.render('blocks', {  blocks: blockchain.chain })
 
 });
 
@@ -68,7 +69,8 @@ app.get('/mine-transactions',(req,res)=>{
 
 // api to view transaction in the transaction pool
 app.get('/transactions',(req,res)=>{
-    res.json(transferPool.transfers);
+    //res.json(transferPool.transfers);
+    res.render('transfers', {  transfers: transferPool.transfers })
 });
 
 
@@ -83,6 +85,11 @@ app.post('/transact',(req,res)=>{
 // get public key
 app.get('/public-key',(req,res)=>{
     res.json({publicKey: wallet.publicKey});
+})
+
+// get files have been sent
+app.get('/smp',(req,res)=>{
+    res.json({files: wallet.getAllSentFiles(blockchain)});
 })
 
 // get files have been sent
