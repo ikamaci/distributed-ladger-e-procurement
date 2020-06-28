@@ -32,8 +32,13 @@ const p2pserver = new P2pserver(blockchain,transferPool);
 
 // create a miner
 const miner = new Miner(blockchain,transferPool,wallet,p2pserver);
-//EXPOSED APIs
 
+app.set('view engine', 'pug');
+
+//EXPOSED APIs
+app.get('/', function (req, res) {
+    res.render('index', { title: 'CMPE 492', message: wallet.publicKey })
+})
 //api to get the blocks
 app.get('/blocks',(req,res)=>{
 
