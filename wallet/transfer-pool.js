@@ -31,7 +31,7 @@ class TransferPool{
      */
 
     existingTransfer(address){
-        return this.transfers.find(t => t.input.address === address);
+        return this.transfers.find(t => t.address === address);
     }
 
     /**
@@ -45,20 +45,8 @@ class TransferPool{
          */
         return this.transfers.filter((transaction)=>{
 
-            // reduce function adds up all the items and saves it in variable
-            // passed in the arguments, second param is the initial value of the
-            // sum total
-
-            const outputTotal = transaction.outputs.reduce((total,output)=>{
-                return total + output.amount;
-            },0)
-            if(false ){
-                console.log(`Invalid transaction from ${transaction.input.address}`);
-                return;
-            }
-
             if(!Transfer.verifyTransfer(transaction)){
-                console.log(`Invalid signature from ${transaction.input.address}`);
+                console.log(`Invalid signature from ${transaction.address}`);
                 return;
             }
             console.log(" -- TRANSFER POOL --")

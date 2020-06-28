@@ -80,6 +80,17 @@ app.get('/public-key',(req,res)=>{
     res.json({publicKey: wallet.publicKey});
 })
 
+// get files have been sent
+app.get('/sent',(req,res)=>{
+    res.json({files: wallet.getAllSentFiles(blockchain)});
+})
+
+// get files have been received
+app.get('/received',(req,res)=>{
+    res.json({files: wallet.getAllReceivedFiles(blockchain)});
+})
+
+
 // app server configurations
 app.listen(HTTP_PORT,()=>{
     console.log(`listening on port ${HTTP_PORT}`);

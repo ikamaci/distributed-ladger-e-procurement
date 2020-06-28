@@ -19,6 +19,10 @@ class Miner{
 
          const validTransfer = this.transferPool.validTransfer();
 
+         console.log("############")
+        console.log(validTransfer)
+         console.log("############")
+
          // include reward for the miner in the valid transactions array
 
         // validTransactions.push(Transaction.rewardTransaction(this.wallet,Wallet.blockchainWallet()));

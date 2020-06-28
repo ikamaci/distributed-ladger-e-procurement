@@ -4,8 +4,10 @@ const {MINING_REWARD} = require('../config');
 class Transfer{
     constructor(){
         this.id = ChainUtil.id();
-        this.input = null;
-        this.outputs = [];
+        this.address = null;
+        this.recipient = null;
+        this.signature = null;
+        this.payload = null;
     }
 
     /**
@@ -36,44 +38,37 @@ class Transfer{
     static newTransfer(senderWallet,recipient,UBLFile){
 
         // call to the helper function that creates and signs the transaction outputs
-        return Transfer.transferWithOutputs(senderWallet,[
-            {payload: UBLFile,address: senderWallet.publicKey},
-            {payload: UBLFile,address: recipient}
-        ])
-    }
+        const transfer = new this();
+        transfer.recipient = recipient;
+        transfer.payload = UBLFile;
+        return Transfer.signTransfer(transfer,senderWallet);
 
-    /**
-     * helper function
-     */
-
-    static transferWithOutputs(senderWallet,outputs){
-        const transaction = new this();
-        transaction.outputs.push(...outputs);
-        Transfer.signTransfer(transaction,senderWallet);
-        return transaction;
     }
 
     /**
      * create input and sign the outputs
      */
 
-    static signTransfer(transaction,senderWallet){
-        transaction.input = {
-            timestamp: Date.now(),
-            address: senderWallet.publicKey,
-            signature: senderWallet.sign(ChainUtil.hash(transaction.outputs))
-        }
+    static signTransfer(transfer,senderWallet){
+
+        transfer.timestamp = Date.now();
+        transfer.address = senderWallet.publicKey;
+        transfer.signature = senderWallet.sign(ChainUtil.hash(transfer))
+
+        return transfer;
     }
 
     /**
      * verify the transaction by decrypting and matching
      */
 
-    static verifyTransfer(transaction){
+    static verifyTransfer(transfer){
+        let tempTransfer =  {...transfer}
+        tempTransfer.signature = null;
         return ChainUtil.verifySignature(
-            transaction.input.address,
-            transaction.input.signature,
-            ChainUtil.hash(transaction.outputs)
+            transfer.address,
+            transfer.signature,
+            ChainUtil.hash(tempTransfer)
         )
     }
 /*
