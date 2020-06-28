@@ -8,8 +8,8 @@ const Miner = require('./miner');
 const HTTP_PORT = process.env.HTTP_PORT || 3001;
 
 const Wallet = require('../wallet');
-const TransactionPool = require('../wallet/transaction-pool');
 
+const TransferPool = require('../wallet/transfer-pool');
 //create a new app
 const app  = express();
 
@@ -24,13 +24,14 @@ const wallet = new Wallet();
 
 // create a new transaction pool which will be later
 // decentralized and synchronized using the peer to peer server
-const transactionPool = new TransactionPool();
+
+const transferPool = new TransferPool();
 
 // create a p2p server instance with the blockchain and the transaction pool
-const p2pserver = new P2pserver(blockchain,transactionPool);
+const p2pserver = new P2pserver(blockchain,transferPool);
 
 // create a miner
-const miner = new Miner(blockchain,transactionPool,wallet,p2pserver);
+const miner = new Miner(blockchain,transferPool,wallet,p2pserver);
 //EXPOSED APIs
 
 //api to get the blocks
@@ -62,14 +63,14 @@ app.get('/mine-transactions',(req,res)=>{
 
 // api to view transaction in the transaction pool
 app.get('/transactions',(req,res)=>{
-    res.json(transactionPool.transactions);
+    res.json(transferPool.transfers);
 });
 
 
 // create transactions
 app.post('/transact',(req,res)=>{
-    const { recipient, amount } = req.body;
-    const transaction = wallet.createTransaction(recipient, amount,blockchain,transactionPool);
+    const { recipient, payload } = req.body;
+    const transaction = wallet.createTransfer(recipient, payload,blockchain,transferPool);
     p2pserver.broadcastTransaction(transaction);
     res.redirect('/transactions');
 });

@@ -1,6 +1,7 @@
 const ChainUtil = require('../chain-util');
 const {MINING_REWARD} = require('../config');
-class Transaction{
+
+class Transfer{
     constructor(){
         this.id = ChainUtil.id();
         this.input = null;
@@ -10,7 +11,7 @@ class Transaction{
     /**
      * add extra ouputs to the transactions
      */
-
+/*
     update(senderWallet,recipient,amount){
         const senderOutput = this.outputs.find(output => output.address === senderWallet.publicKey);
 
@@ -21,25 +22,23 @@ class Transaction{
 
         senderOutput.amount = senderOutput.amount - amount;
         this.outputs.push({amount: amount,address: recipient});
-        Transaction.signTransaction(this,senderWallet);
+        Transfer.signTransaction(this,senderWallet);
 
         return this;
     }
+
+ */
 
     /**
      * create a new transaction
      */
 
-    static newTransaction(senderWallet,recipient,amount){
+    static newTransfer(senderWallet,recipient,UBLFile){
 
-        if(amount > senderWallet.balance){
-            console.log(`Amount : ${amount} exceeds the balance`);
-            return;
-        }
         // call to the helper function that creates and signs the transaction outputs
-        return Transaction.transactionWithOutputs(senderWallet,[
-            {amount: senderWallet.balance -amount,address: senderWallet.publicKey},
-            {amount: amount,address: recipient}
+        return Transfer.transferWithOutputs(senderWallet,[
+            {payload: UBLFile,address: senderWallet.publicKey},
+            {payload: UBLFile,address: recipient}
         ])
     }
 
@@ -47,10 +46,10 @@ class Transaction{
      * helper function
      */
 
-    static transactionWithOutputs(senderWallet,outputs){
+    static transferWithOutputs(senderWallet,outputs){
         const transaction = new this();
         transaction.outputs.push(...outputs);
-        Transaction.signTransaction(transaction,senderWallet);
+        Transfer.signTransfer(transaction,senderWallet);
         return transaction;
     }
 
@@ -58,10 +57,9 @@ class Transaction{
      * create input and sign the outputs
      */
 
-    static signTransaction(transaction,senderWallet){
+    static signTransfer(transaction,senderWallet){
         transaction.input = {
             timestamp: Date.now(),
-            amount: senderWallet.balance,
             address: senderWallet.publicKey,
             signature: senderWallet.sign(ChainUtil.hash(transaction.outputs))
         }
@@ -71,20 +69,22 @@ class Transaction{
      * verify the transaction by decrypting and matching
      */
 
-    static verifyTransaction(transaction){
+    static verifyTransfer(transaction){
         return ChainUtil.verifySignature(
             transaction.input.address,
             transaction.input.signature,
             ChainUtil.hash(transaction.outputs)
         )
     }
-
+/*
     static rewardTransaction(minerWallet,blockchainWallet){
         return Transaction.transactionWithOutputs(blockchainWallet,[{
             amount: MINING_REWARD,
             address: minerWallet.publicKey
         }]);
     }
+
+ */
 }
 
-module.exports = Transaction;
+module.exports = Transfer;

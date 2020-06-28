@@ -1,6 +1,6 @@
 const ChainUtil = require('../chain-util');
 const { INITIAL_BALANCE } = require('../config');
-const Transaction = require('./transaction');
+const Transfer = require('./transfer');
 
 class Wallet{
     /**
@@ -12,12 +12,13 @@ class Wallet{
         this.balance = INITIAL_BALANCE;
         this.keyPair = ChainUtil.genKeyPair();
         this.publicKey = this.keyPair.getPublic().encode('hex');
+        this.files = []
     }
 
     toString(){
         return `Wallet - 
         publicKey: ${this.publicKey.toString()}
-        balance  : ${this.balance}`
+        files  : ${this.files}`
     }
 
     sign(dataHash){
@@ -30,25 +31,26 @@ class Wallet{
      * pool if the transaction exists already.
      */
 
-    createTransaction(recipient, amount,blockchain, transactionPool){
+    createTransfer(recipient,UBLFile,blockchain, transferPool){
 
+        /*
         this.balance = this.calculateBalance(blockchain);
 
         if(amount > this.balance){
             console.log(`Amount: ${amount} exceeds the current balance: ${this.balance}`);
             return;
         }
-
-        let transaction = transactionPool.existingTransaction(this.publicKey);
+        */
+        let transaction = transferPool.existingTransfer(this.publicKey);
 
         if(transaction){
             // creates more outputs
-            transaction.update(this,recipient,amount)
+            transaction.update(this,recipient)
         }
         else{
             // creates a new transaction and updates the transaction pool
-            transaction = Transaction.newTransaction(this,recipient,amount);
-            transactionPool.updateOrAddTransaction(transaction);
+            transaction = Transfer.newTransfer(this,recipient,UBLFile);
+            transferPool.updateOrAddTransfer(transaction);
         }
 
         return transaction;

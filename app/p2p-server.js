@@ -8,14 +8,14 @@ const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 const MESSAGE_TYPE = {
     chain: 'CHAIN',
-    transaction: 'TRANSACTION',
-    clear_transactions: 'CLEAR_TRANSACTIONS'
+    transfer: 'TRANSFER',
+    clear_transfer: 'CLEAR_TRANSFER'
 }
 class P2pserver{
-    constructor(blockchain,transactionPool){
+    constructor(blockchain,transferPool){
         this.blockchain = blockchain;
         this.sockets = [];
-        this.transactionPool = transactionPool;
+        this.transferPool = transferPool;
     }
 
     // create a new p2p server and connections
@@ -79,18 +79,18 @@ class P2pserver{
                      */
                     this.blockchain.replaceChain(data.chain);
                     break;
-                case MESSAGE_TYPE.transaction:
+                case MESSAGE_TYPE.transfer:
                     /**
                      * add transaction to the transaction
                      * pool or replace with existing one
                      */
-                    this.transactionPool.updateOrAddTransaction(data.transaction);
+                    this.transferPool.updateOrAddTransfer(data.transfer);
                     break;
-                case MESSAGE_TYPE.clear_transactions:
+                case MESSAGE_TYPE.clear_transfer:
                     /**
                      * clear the transactionpool
                      */
-                    this.transactionPool.clear();
+                    this.transferPool.clear();
                     break;
             }
             
@@ -136,10 +136,10 @@ class P2pserver{
       * to a socket
       */
 
-      sendTransaction(socket,transaction){
+      sendTransaction(socket,transfer){
           socket.send(JSON.stringify({
-              type: MESSAGE_TYPE.transaction,
-              transaction: transaction
+              type: MESSAGE_TYPE.transfer,
+              transfer: transfer
             })
         );
       }
@@ -147,7 +147,7 @@ class P2pserver{
       broadcastClearTransactions(){
           this.sockets.forEach(socket => {
               socket.send(JSON.stringify({
-                  type: MESSAGE_TYPE.clear_transactions
+                  type: MESSAGE_TYPE.clear_transfer
               }))
           })
       }
