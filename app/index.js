@@ -109,12 +109,14 @@ app.get('/smp',(req,res)=>{
 
 // get files have been sent
 app.get('/sent',(req,res)=>{
-    res.json({files: wallet.getAllSentFiles(blockchain)});
+    //res.json({files: wallet.getAllSentFiles(blockchain)});
+    res.render('sent', {  files: wallet.getAllSentFiles(blockchain).map(file => JSON.stringify(file))})
 })
 
 // get files have been received
 app.get('/received',(req,res)=>{
-    res.json({files: wallet.getAllReceivedFiles(blockchain)});
+    //res.json({files: wallet.getAllReceivedFiles(blockchain)});
+    res.render('receive', {  files: wallet.getAllReceivedFiles(blockchain).map(file => JSON.stringify(file))})
 })
 
 

@@ -1,0 +1,14 @@
+extends layout
+block content
+    h2 Transferred Files
+    br
+    br
+    ul
+        if files.length !== 0
+            each val, index in files
+                //li= index + ': ' + val
+                .list-group-item( href="/page" )
+                    h4.list-group-item-heading= "File No: " + index
+                    p.list-group-item-text= val
+        else
+            p There is no sent files
