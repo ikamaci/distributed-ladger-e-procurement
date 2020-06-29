@@ -32,6 +32,22 @@ const p2pserver = new P2pserver(blockchain,transferPool);
 // create a miner
 const miner = new Miner(blockchain,transferPool,wallet,p2pserver);
 
+app.use(bodyParser.urlencoded({ extended: false }))
+
+//multer object creation
+var multer  = require('multer')
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+
+var upload = multer({ storage: storage })
+
+
 app.set('view engine', 'pug');
 
 //EXPOSED APIs
@@ -69,12 +85,12 @@ app.get('/mine-transactions',(req,res)=>{
 // api to view transaction in the transaction pool
 app.get('/transactions',(req,res)=>{
     //res.json(transferPool.transfers);
-    res.render('transfers', {  transfers: transferPool.transfers })
+    res.render('transfers', {  transfers: transferPool.transfers.map(trans => JSON.stringify(trans)) })
 });
 
 
 // create transactions
-app.post('/transact',(req,res)=>{
+app.post('/transact', upload.single('imageupload'),(req,res)=>{
     const { recipient, payload } = req.body;
     const transaction = wallet.createTransfer(recipient, payload,blockchain,transferPool);
     p2pserver.broadcastTransaction(transaction);

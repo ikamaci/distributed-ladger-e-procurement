@@ -99,6 +99,8 @@ class Wallet{
         // store the existing balance
         let files = this.files;
 
+        console.log("blockchain lenght", blockchain.length)
+
         // create an array of transactions
         let transfers = [];
 

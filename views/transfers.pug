@@ -4,7 +4,9 @@ block content
     ul
         if transfers.length !== 0
             each val, index in transfers
-                li= index + ': ' + val
+                li='Transfer  '  + index + ' : \n' + val
+            br
+            br
             a.btn.btn-primary(href='/mine-transactions') Mine
         else
-            p Transfer pool is empty
+            h3 Transfer pool is empty!

@@ -21,15 +21,32 @@ class Block{
 
         return date.toString("MMM dd");
     }
+    dataToString(data){
+        console.log(data)
+        if (data.length > 0) {
+            return `Transfer - 
+            Timestamp : ${this.dateToString(data.timestamp)} | 
+            Address : ${data.address} \n |
+            Recipient : ${data.recipient} \n |
+            Payload : ${data.payload} \n |
+            Signature : ${data.signature} \n |
+        `;
+        }
+        else{
+            return "Genesis Dummy";
+        }
 
+    }
     toString(){
         return `Block - 
-        Timestamp : ${this.dateToString(this.timestamp)}
-        Last Hash : ${this.lastHash.substring(0,10)}
-        Hash      : ${this.hash.substring(0,10)}
-        Nonce     : ${this.nonce}
-        Data      : ${this.data}
-        Difficulty: ${this.difficulty}`;
+        Timestamp : ${this.dateToString(this.timestamp)} \n |
+        Last Hash : ${this.lastHash.substring(0,10)} \n |
+        Hash      : ${this.hash.substring(0,10)} \n |
+        Nonce     : ${this.nonce} \n |
+        Data      : ${JSON.stringify(this.data)} \n |
+        Difficulty: ${this.difficulty} | 
+        `;
+
     }
 
     /**
@@ -37,7 +54,7 @@ class Block{
      */
 
     static genesis(){
-        return new this(Date.now(),'----','f1574-h4gh',[],0,DIFFICULTY);
+        return new this('0000000000','----','f1574-h4gh',[],0,DIFFICULTY);
     }
 
     /**

@@ -1,52 +1,22 @@
-doctype html
+extends layout
+block content
 
+    .container
+        h1 Blockchain powered eProcurement Network
+        br
+        br
+        .list-group-item()
+            h3.list-group-item-heading= "Address"
+            p.list-group-item-text= message
 
-html(lang='en')
-    block vars
-        - var addr="dsadasd"
-    head
-        title= title
-        block styles
-            link(rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css")
-            // My wonderful navbar
-            nav.navbar.navbar-inverse
-                .container-fluid
-                    .navbar-header
-                        a.navbar-brand(href='/') CMPE 492
-                    ul.nav.navbar-nav
-                        li.active
-                            a(href='/') Home
-                        li
-                            a(href='/blocks') Blocks
-                        li
-                            a(href='/transactions') Transfer Pool
-
-                    ul.nav.navbar-nav.navbar-right
-                        li
-                            a(href='/user/me')
-                                | You are logged in as
-                                | user@example.com
-
-            .container
-                h1 Blockchain powered eProcurement Network
-                br
-                br
-                .list-group-item()
-                    h3.list-group-item-heading= "Address"
-                    p.list-group-item-text= message
-
-                br
-                br
-                form(role="form")
-                    div.form-group
-                        label(for="email") Address of the receiver address
-                        input#email.form-control(type="email", placeholder="Enter address")
-                    div.form-group
-                        label(for="file") File to transfer
-                        input#file.form-control(type="file", class = "custom-file-addressinput"  placeholder="Upload UBL file")
-                    div.form-group
-                        div.col-lg-offset-1.col-lg-3
-                            a.btn.btn-primary(type="submit") Submit
-
-
-
+        br
+        br
+        form(method="post", action="/transact")
+            div.form-group
+                label(for="address") Address of the receiver
+                input#address.form-control(type="text", placeholder="Enter address", name='recipient' )
+            div.form-group
+                label File Content to transfer
+                input#text.form-control(type="text",  placeholder="Upload UBL file", name='payload')
+            div.form-group
+                input(type='submit' value="Transfer Document")
