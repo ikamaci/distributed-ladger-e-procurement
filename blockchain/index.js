@@ -50,7 +50,16 @@ class Blockchain{
         }
         
         console.log("Replacing the current chain with new chain");
-        this.chain = newChain; 
+        console.log("old chain : ",this.chain[0])
+        this.chain = this.castChain(newChain);
+        console.log("new chain : ",this.chain[0])
+    }
+    castChain(chain){
+        return chain.map(block => {
+            const {timestamp,lastHash,hash,data,nonce,difficulty} = block;
+            return new Block(timestamp,lastHash,hash,data,nonce,difficulty);
+        })
+
     }
 }
 

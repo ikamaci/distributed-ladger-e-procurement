@@ -2,6 +2,8 @@ doctype html
 
 
 html(lang='en')
+    block vars
+        - var addr="dsadasd"
     head
         title= title
         block styles
@@ -26,46 +28,15 @@ html(lang='en')
                                 | user@example.com
 
             .container
-                h2 Blockchain powered eProcurement Network
-                div.remark
-                    h3 Address
-                    p= message
-                p.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
+                h1 Blockchain powered eProcurement Network
+                br
+                br
+                .list-group-item()
+                    h3.list-group-item-heading= "Address"
+                    p.list-group-item-text= message
 
-                p.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                    commodo consequat.
-                a.btn.btn-default Default
-
-                a.btn.btn-primary( href="link.htm" ) Primary
-
-                a.btn.btn-success Success
-
-                a.btn.btn-info Info
-
-                a.btn.btn-warning Warning
-
-                a.btn.btn-danger Danger
-
-                .list-group
-                    .list-group-item( href="/page" )
-                        h4.list-group-item-heading List group item heading
-                        p.list-group-item-text Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                    .list-group-item( href="#" )
-                        h4.list-group-item-heading List group item heading
-                        p.list-group-item-text Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                    .list-group-item( href="#" )
-                        h4.list-group-item-heading List group item heading
-                        p.list-group-item-text Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-
-
-
+                br
+                br
                 form(role="form")
                     div.form-group
                         label(for="email") Address of the receiver address
@@ -76,5 +47,6 @@ html(lang='en')
                     div.form-group
                         div.col-lg-offset-1.col-lg-3
                             a.btn.btn-primary(type="submit") Submit
+
 
 

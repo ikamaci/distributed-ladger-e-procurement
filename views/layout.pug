@@ -2,6 +2,7 @@ doctype html
 
 //link(href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.0/flatly/bootstrap.min.css", rel="stylesheet")
 html(lang='en')
+    block vars
     head
         title= title
         block styles
@@ -22,7 +23,6 @@ html(lang='en')
                     ul.nav.navbar-nav.navbar-right
                         li
                             a(href='/user/me')
-                                | You are logged in as
-                                | user@example.com
-
+                                | You are logged in
+                                addr #{addr}
     block content

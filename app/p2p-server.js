@@ -6,10 +6,12 @@ const P2P_PORT = process.env.P2P_PORT || 5001;
 //list of address to connect to
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
+
 const MESSAGE_TYPE = {
     chain: 'CHAIN',
     transfer: 'TRANSFER',
-    clear_transfer: 'CLEAR_TRANSFER'
+    clear_transfer: 'CLEAR_TRANSFER',
+    node_id: 'NODE_ID'
 }
 const names = ["Firm A","Firm B","Firm C"]
 class P2pserver{
@@ -17,7 +19,7 @@ class P2pserver{
         this.blockchain = blockchain;
         this.sockets = [];
         this.transferPool = transferPool;
-        this.index = 0;
+
     }
 
     // create a new p2p server and connections
@@ -42,7 +44,7 @@ class P2pserver{
 
         // push the socket to the socket array
         this.sockets.push(socket);
-        console.log("Socket connected");
+        console.log("Socket connected","w");
 
         // register a message event listener to the socket
         this.messageHandler(socket);
@@ -63,7 +65,7 @@ class P2pserver{
             // open event listener is emitted when a connection is established
             // saving the socket in the array
             socket.on('open',() => this.connectSocket(socket));
-            console.log(this.sockets)
+            //console.log(this.sockets)
         });
     }
 
@@ -71,7 +73,7 @@ class P2pserver{
         //on recieving a message execute a callback function
         socket.on('message',message =>{
             const data = JSON.parse(message);
-            console.log("data ", data);
+            //console.log("data ", data);
 
             switch(data.type){
                 case MESSAGE_TYPE.chain:
@@ -93,6 +95,7 @@ class P2pserver{
                      * clear the transactionpool
                      */
                     this.transferPool.clear();
+                    this.syncChain();
                     break;
             }
             
@@ -117,6 +120,7 @@ class P2pserver{
 
     syncChain(){
         this.sockets.forEach(socket =>{
+            console.log("s")
             this.sendChain(socket);
         });
     }
@@ -153,8 +157,6 @@ class P2pserver{
               }))
           })
       }
-
-
 
 }
 

@@ -115,22 +115,6 @@ class Wallet{
 
         return walletSentTransfers;
 
-        if(walletSentTransfers.length > 0){
-
-            // get the latest transaction
-            //const recentInputTransaction = walletInputTransactions.reduce((prev,current)=> prev.input.timestamp > current.input.timestamp ? prev : current );
-
-            // get the outputs of that transactions, its amount will be the money that we would get back
-           // balance = recentInputTransaction.outputs.find(output => output.address === this.publicKey).amount
-
-            // save the timestamp of the latest transaction made by the wallet
-            //startTime = recentInputTransaction.input.timestamp
-        }
-
-        // get the transactions that were addressed to this wallet ie somebody sent some moeny
-        // and add its ouputs.
-        // since we save the timestamp we would only add the outputs of the transactions recieved
-        // only after the latest transactions made by us
 
 
     }

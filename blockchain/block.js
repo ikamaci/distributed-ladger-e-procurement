@@ -16,10 +16,15 @@ class Block{
      * substring is used to make it look nice
      * hashes are too big to printed on command line 
      */
+    dateToString(milisec){
+        var date = new Date(parseInt(milisec));
+
+        return date.toString("MMM dd");
+    }
 
     toString(){
         return `Block - 
-        Timestamp : ${this.timestamp}
+        Timestamp : ${this.dateToString(this.timestamp)}
         Last Hash : ${this.lastHash.substring(0,10)}
         Hash      : ${this.hash.substring(0,10)}
         Nonce     : ${this.nonce}
@@ -32,7 +37,7 @@ class Block{
      */
 
     static genesis(){
-        return new this('Genesis time','----','f1574-h4gh',[],0,DIFFICULTY);
+        return new this(Date.now(),'----','f1574-h4gh',[],0,DIFFICULTY);
     }
 
     /**

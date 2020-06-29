@@ -5,5 +5,6 @@ block content
         if transfers.length !== 0
             each val, index in transfers
                 li= index + ': ' + val
+            a.btn.btn-primary(href='/mine-transactions') Mine
         else
             p Transfer pool is empty

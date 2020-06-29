@@ -3,7 +3,6 @@ const Blockchain = require('../blockchain');
 const bodyParser = require('body-parser');
 const P2pserver = require('./p2p-server');
 const Miner = require('./miner');
-
 //get the port from the user or set the default port
 const HTTP_PORT = process.env.HTTP_PORT || 3001;
 
@@ -89,7 +88,7 @@ app.get('/public-key',(req,res)=>{
 
 // get files have been sent
 app.get('/smp',(req,res)=>{
-    res.json({files: wallet.getAllSentFiles(blockchain)});
+    res.json({nodes: smp.getNodes()});
 })
 
 // get files have been sent
@@ -110,3 +109,4 @@ app.listen(HTTP_PORT,()=>{
 
 // p2p server configuration
 p2pserver.listen();
+

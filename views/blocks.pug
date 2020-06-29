@@ -4,6 +4,9 @@ block content
     ul
         if blocks.length !== 0
             each val, index in blocks
-                li= index + ': ' + val
+                //li= index + ': ' + val
+                .list-group-item( href="/page" )
+                    h4.list-group-item-heading= "Block No: " + index
+                    p.list-group-item-text= val
         else
             p Chain is empty
